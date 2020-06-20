@@ -6,9 +6,9 @@ error_reporting(0);
 $id_usr = $_SESSION['id'];
 if (isset($id_usr)) {
     //Traer id del modulo actual
-    $idModuloUsuarios = $db->select("modulos", "id_modulo", ["nombre_modulo" => "vacantes"]);
+    $idModuloVacantes = $db->select("modulos", "id_modulo", ["nombre_modulo" => "vacantes"]);
     //Si no puede consultar este modulo mostrar pagina de error
-    if (!in_array($idModuloUsuarios[0], $_SESSION["consultar"])) {
+    if (!in_array($idModuloVacantes[0], $_SESSION["consultar"])) {
         header("Location:" . URL . "/403.html");
     } else {
 ?>
@@ -53,9 +53,16 @@ if (isset($id_usr)) {
                                     </div>
                                 </div>
                                 <div class="page-title-actions">
-                                        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalVacantes" id="newVacante">
-                                            Nueva vacante
-                                        </button>
+                                <?php
+                                        //Si el id del modulo está en el array de permisos insertar muestra el boton
+                                        if (in_array($idModuloVacantes[0], $_SESSION["insertar"])) :
+                                        ?>
+                                            <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalVacantes" id="newVacante">
+                                                Nueva vacante
+                                            </button>
+                                        <?php
+                                        endif;
+                                        ?>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +77,14 @@ if (isset($id_usr)) {
                                                     <th>Titulo</th>
                                                     <th>Departamento</th>
                                                     <th>Estado</th>
+                                                    <?php
+                                                        //Si el id del modulo se encuentra en el array de permisos editar o eliminar muestra el th
+                                                    if (in_array($idModuloVacantes[0], $_SESSION["editar"]) || in_array($idModuloVacantes[0], $_SESSION["eliminar"])) :
+                                                    ?>
                                                     <th>Acciones</th>
+                                                    <?php
+                                                    endif;
+                                                    ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -79,7 +93,7 @@ if (isset($id_usr)) {
                                                     "[><]departamentos_rh(d)" => ["vac.departamento_vac" => "id"],
                                                     "[><]estados(e)" => ["vac.estado_vac" => "id_est"]
                                                 ],
-                                                
+
                                                     ["vac.id_vac", "vac.titulo_vac", "d.name", "e.nombre_est"]
                                                 );
                                                     foreach ($vacantes as $vacante) {
@@ -90,11 +104,34 @@ if (isset($id_usr)) {
                                                         </td>
                                                         <td><?php echo $vacante["name"]; ?></td>
                                                         <td><?php echo $vacante["nombre_est"]; ?></td>
-                                                        <td> <button class="btnEdit mr-2 btn btn-outline-primary" data-id="<?php echo $vacante['id_vac'] ?>" data-toggle="modal" data-target="#modalVacantes">
-                                                                        Editar </button>
-                                                            <button class="btnDelete mr-2 btn btn-outline-danger" data-id="<?php echo $vacante["id_vac"]; ?>">
-                                                                        Eliminar </button>
-                                                        </td>
+                                                        <?php
+                                                            //Si el id del modulo se encuentra en el array de permisos editar o eliminar muestra el td
+                                                            if (in_array($idModuloVacantes[0], $_SESSION["editar"]) || in_array($idModuloVacantes[0], $_SESSION["eliminar"])) :
+                                                            ?>
+                                                                <td>
+                                                                    <?php
+                                                                    //Si el id del modulo está en el array de permisos editar muestra el boton
+                                                                    if (in_array($idModuloVacantes[0], $_SESSION["editar"])) :
+                                                                    ?>
+                                                                        <button class="btnEdit mr-2 btn btn-outline-primary" data-id="<?php echo $vacante['id_vac'] ?>" data-toggle="modal" data-target="#modalVacantes">
+                                                                            Editar
+                                                                        </button>
+                                                                    <?php
+                                                                    endif;
+
+                                                                    //Si el id del modulo está en el array de permisos eliminar muestra el boton
+                                                                    if (in_array($idModuloVacantes[0], $_SESSION["eliminar"])) :
+                                                                    ?>
+                                                                        <button class="btnDelete mr-2 btn btn-outline-danger" data-id="<?php echo $vacante["id_vac"]; ?>">
+                                                                            Eliminar
+                                                                        </button>
+                                                                    <?php
+                                                                    endif;
+                                                                    ?>
+                                                                </td>
+                                                            <?php
+                                                            endif;
+                                                            ?>
                                                     </tr>
                                                 <?php
                                                 }
