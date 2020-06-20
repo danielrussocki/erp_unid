@@ -6,7 +6,11 @@ error_reporting(0);
 $id_usr = $_SESSION['id'];
 if (isset($id_usr)) {
     //Traer id del modulo actual
-    $idModuloPerfiles = $db->select("modulos", "id_modulo", ["nombre_modulo" => "perfiles"]);
+    $idModuloUsuarios = $db->select("modulos", "id_modulo", ["nombre_modulo" => "vacantes"]);
+    //Si no puede consultar este modulo mostrar pagina de error
+    if (!in_array($idModuloUsuarios[0], $_SESSION["consultar"])) {
+        header("Location:" . URL . "/403.html");
+    } else {
 ?>
     <!DOCTYPE html>
     <html lang="mx">
@@ -39,9 +43,9 @@ if (isset($id_usr)) {
                                     <!-- Img title -->
                                     <div class="page-title-icon">
                                         <?php
-                                        $iconoPerfiles = $db->get('modulos', 'icono_modulo', ['nombre_modulo' => 'vacantes']);
+                                        $iconoVacantes = $db->get('modulos', 'icono_modulo', ['nombre_modulo' => 'vacantes']);
                                         ?>
-                                        <i class="<?php echo $iconoPerfiles; ?> icon-gradient bg-mean-fruit"></i>
+                                        <i class="<?php echo $iconoVacantes; ?> icon-gradient bg-mean-fruit"></i>
                                     </div>
                                     <!-- Title & subtitle -->
                                     <div>
@@ -49,16 +53,9 @@ if (isset($id_usr)) {
                                     </div>
                                 </div>
                                 <div class="page-title-actions">
-                                    <?php
-                                    //Si el id del modulo está en el array de permisos insertar muestra el boton
-                                    if (in_array($idModuloPerfiles[0], $_SESSION["insertar"])) :
-                                    ?>
-                                        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalProfiles" id="newProfile">
+                                        <button class="btn btn-outline-success" data-toggle="modal" data-target="#modalVacantes" id="newVacante">
                                             Nueva vacante
                                         </button>
-                                    <?php
-                                    endif;
-                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -66,63 +63,33 @@ if (isset($id_usr)) {
                             <div class="col-lg-12">
                                 <div class="main-card mb-3 card">
                                     <div class="card-body">
-                                        <table class="mb-0 table table-bordered text-center">
+                                        <table class="mb-0 table table-bordered text-center" id="tableVacantes">
                                             <thead>
                                                 <tr>
-                                                    <th>Nombre</th>
-                                                    <th>Área</th>
+                                                    <th>#</th>    
+                                                    <th>Titulo</th>
+                                                    <th>Departamento</th>
                                                     <th>Estado</th>
-                                                    <?php
-                                                    //Si el id del modulo está en el array de permisos editar y eliminar muestra el th
-                                                    if (in_array($idModuloPerfiles[0], $_SESSION["editar"]) || in_array($idModuloPerfiles[0], $_SESSION["eliminar"])) :
-                                                    ?>
-                                                        <th>Acciones</th>
-                                                    <?php
-                                                    endif;
-                                                    ?>
+                                                    <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $profiles = $db->select("perfiles", "*");
-                                                $number = 1;
-                                                foreach ($profiles as $profile) {
+                                                $vacantes = $db->select("vacantes", "*");
+                                                    foreach ($vacantes as $vacante) {
                                                 ?>
                                                     <tr>
-                                                        <td><?php echo ucfirst(strtolower($profile["nombre_perfil"])); ?></td>
-                                                        <td><?php echo $profile["consultar"]; ?></td>
-                                                        <td><?php echo $profile["insertar"]; ?></td>
-                                                        <?php
-                                                        //Si el id del modulo se encuentra en el array de permisos editar o eliminar muestra el th
-                                                        if (in_array($idModuloPerfiles[0], $_SESSION["editar"]) || in_array($idModuloPerfiles[0], $_SESSION["eliminar"])) :
-                                                        ?>
-                                                            <td>
-                                                                <?php
-                                                                //Si el id del modulo está en el array de permisos editar muestra el boton
-                                                                if (in_array($idModuloPerfiles[0], $_SESSION["editar"])) :
-                                                                ?>
-                                                                    <button class="btnEdit mr-2 btn btn-outline-primary" data-toggle="modal" data-target="#modalProfiles" data="<?php echo $profile["id_perfil"]; ?>">
-                                                                        Editar
-                                                                    </button>
-                                                                <?php
-                                                                endif;
-
-                                                                //Si el id del modulo está en el array de permisos eliminar muestra el boton
-                                                                if (in_array($idModuloPerfiles[0], $_SESSION["eliminar"])) :
-                                                                ?>
-                                                                    <button class="btnDelete mr-2 btn btn-outline-danger" data="<?php echo $profile["id_perfil"]; ?>">
-                                                                        Eliminar
-                                                                    </button>
-                                                                <?php
-                                                                endif;
-                                                                ?>
-                                                            </td>
-                                                        <?php
-                                                        endif;
-                                                        ?>
+                                                        <td><?php echo $vacante["id_vac"]; ?></td>
+                                                        <td><?php echo $vacante["titulo_vac"]; ?></td>
+                                                        <td><?php echo $vacante["departamento_vac"]; ?></td>
+                                                        <td><?php echo $vacante["estado_vac"]; ?></td>
+                                                        <td> <button class="btnEdit mr-2 btn btn-outline-primary" data="<?php echo $vacante['id_vac'] ?>" data-toggle="modal" data-target="#modalVacantes">
+                                                                        Editar </button>
+                                                            <button class="btnDelete mr-2 btn btn-outline-danger" data="<?php echo $vacante["id_vac"]; ?>">
+                                                                        Eliminar </button>
+                                                        </td>
                                                     </tr>
                                                 <?php
-                                                    $number++;
                                                 }
                                                 ?>
                                             </tbody>
@@ -142,133 +109,109 @@ if (isset($id_usr)) {
         <!-- /Full Container -->
         <script type="text/javascript" src="<?php echo constant('URL') ?>/assets/scripts/main.js"></script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/vendor/components/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/perfiles/main.js"></script>
+        <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/vacantes/main.js"></script>
+        <script src="https://cdn.tiny.cloud/1/pwzdplmh9jw9bm4mxpjzjmnr5958n79k1v636aeb82h9zivw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <!-- TINYMCE -->
+        <script type="text/javascript">
+            tinyMCE.init({
+                selector: "#experiencia_vac, #ofrecemos_vac",
+                mode: "textareas",
+                plugins: "paste,link,preview",
+                theme_advanced_buttons3_add: "pastetext,pasteword,selectall,link",
+                paste_auto_cleanup_on_paste: true
+            });
+        </script>
     </body>
 
     </html>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalProfiles" tabindex="-1" role="dialog" aria-labelledby="modalProfiles" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="modalVacantes" tabindex="-1" role="dialog" aria-labelledby="modalVacantes" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title">Insertar nueva vacante</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formProfiles">
+                    <form id="formVacantes">
                         <div class="form-row">
-                            <div class="col-md-12 mb-3">
-                                <label for="nombre_perfil">Nombre</label>
-                                <input type="text" class="form-control" id="nombrePerfil" name="nombre_perfil" placeholder="ej. Empleado RH">
+                            <div class="col-md-4 mb-3">
+                                <label>Titulo de la vacante</label>
+                                <input type="text" class="form-control" id="titulo_vac" name="titulo_vac">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Estado</label>
+                                <select name="estado_vac" id="estado_vac" class="form-control">
+                                    <?php
+                                    global $db;
+                                    $query = $db->select("estados","*",["ORDER" =>["id_est" => "ASC"]]);
+                                        foreach($query as $clave => $valor){
+                                    ?>
+                                    <option value="<?php echo $valor['id_est']; ?>"><?php echo $valor['nombre_est']; ?></option>
+                                <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Departamento</label>
+                                <select name="departamento_vac" id="departamento_vac" class="form-control">
+                                    <?php
+                                    global $db;
+                                    $query = $db->select("departamentos_rh","*",["ORDER" =>["id" => "ASC"]]);
+                                        foreach($query as $clave => $valor){
+                                    ?>
+                                    <option value="<?php echo $valor['id']; ?>"><?php echo $valor['name']; ?></option>
+                                <?php } ?>
+                                </select>
                             </div>
                         </div>
-                        <div class="form-row" id="consultar">
-                            <div class="col-md-12 mb-3">
-                                <div class="main-card card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Seleccione modulos a consultar</h5>
-                                        <div class="position-relative form-group">
-                                            <?php
-                                            $modules = $db->select("modulos", "*");
-                                            foreach ($modules as $module) {
-                                            ?>
-                                                <div class="custom-checkbox custom-control custom-control-inline">
-                                                    <input type="checkbox" id="consultar-<?php echo $module["id_modulo"] ?>" class="custom-control-input" name="consultar-<?php echo $module["id_modulo"] ?>" value="<?php echo $module["id_modulo"] ?>">
-                                                    <label class="custom-control-label" for="consultar-<?php echo $module["id_modulo"] ?>">
-                                                        <?php echo $module["nombre_modulo"] ?>
-                                                    </label>
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label>Jornada</label>
+                                <select name="jornada_vac" id="jornada_vac" class="form-control">
+                                    <?php
+                                        global $db;
+                                        $query = $db->select("jornadas","*",["ORDER" =>["id_jor" => "ASC"]]);
+                                            foreach($query as $clave => $valor){
+                                        ?>
+                                        <option value="<?php echo $valor['id_jor']; ?>"><?php echo $valor['nombre_jor']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Edad</label>
+                                <input type="text" class="form-control" id="edad_vac" name="edad_vac">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Sueldo</label>
+                                <input type="text" class="form-control" id="sueldo_vac" name="sueldo_vac">
                             </div>
                         </div>
-                        <div class="form-row" id="insertar">
-                            <div class="col-md-12 mb-3">
-                                <div class="main-card card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Seleccione modulos para insertar datos</h5>
-                                        <div class="position-relative form-group">
-                                            <?php
-                                            $modules = $db->select("modulos", "*");
-                                            foreach ($modules as $module) {
-                                            ?>
-                                                <div class="custom-checkbox custom-control custom-control-inline">
-                                                    <input type="checkbox" id="insertar-<?php echo $module["id_modulo"] ?>" class="custom-control-input" name="insertar-<?php echo $module["id_modulo"] ?>" value="<?php echo $module["id_modulo"] ?>">
-                                                    <label class="custom-control-label" for="insertar-<?php echo $module["id_modulo"] ?>">
-                                                        <?php echo $module["nombre_modulo"] ?>
-                                                    </label>
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label>Experiencia</label>
+                                <form method="post">
+                                    <textarea id="experiencia_vac" name="experiencia_vac"></textarea>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ofrecemos</label>
+                                <form method="post">
+                                    <textarea id="ofrecemos_vac" name="ofrecemos_vac"></textarea>
+                                </form>
                             </div>
                         </div>
-                        <div class="form-row" id="editar">
-                            <div class="col-md-12 mb-3">
-                                <div class="main-card card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Seleccione modulos para editar datos</h5>
-                                        <div class="position-relative form-group">
-                                            <?php
-                                            $modules = $db->select("modulos", "*");
-                                            foreach ($modules as $module) {
-                                            ?>
-                                                <div class="custom-checkbox custom-control custom-control-inline">
-                                                    <input type="checkbox" id="editar-<?php echo $module["id_modulo"] ?>" class="custom-control-input" name="editar-<?php echo $module["id_modulo"] ?>" value="<?php echo $module["id_modulo"] ?>">
-                                                    <label class="custom-control-label" for="editar-<?php echo $module["id_modulo"] ?>">
-                                                        <?php echo $module["nombre_modulo"] ?>
-                                                    </label>
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row" id="eliminar">
-                            <div class="col-md-12 mb-3">
-                                <div class="main-card card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Seleccione modulos para eliminar datos</h5>
-                                        <div class="position-relative form-group">
-                                            <?php
-                                            $modules = $db->select("modulos", "*");
-                                            foreach ($modules as $module) {
-                                            ?>
-                                                <div class="custom-checkbox custom-control custom-control-inline">
-                                                    <input type="checkbox" id="eliminar-<?php echo $module["id_modulo"] ?>" class="custom-control-input" name="editar-<?php echo $module["id_modulo"] ?>" value="<?php echo $module["id_modulo"] ?>">
-                                                    <label class="custom-control-label" for="eliminar-<?php echo $module["id_modulo"] ?>">
-                                                        <?php echo $module["nombre_modulo"] ?>
-                                                    </label>
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-outline-success" id="btnInsertProfile" type="button">Insertar</button>
+                        <button class="btn btn-outline-success" id="btnInsertVacante" type="button">Insertar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-<?php
+    <?php
+    }
 } else {
-    header('Location:' . URL . '/erp_modulos/login/index.php');
+    header("Location:" . URL . "/erp_modulos/login/index.php");
 }
 ?>

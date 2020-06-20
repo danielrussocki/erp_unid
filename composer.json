@@ -4,7 +4,8 @@
         "components/jquery": "^3.5",
         "opis/json-schema": "^1.0",
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "tinymce/tinymce": ">= 5"
 
     },
     "config": {
