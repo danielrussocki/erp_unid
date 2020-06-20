@@ -86,7 +86,17 @@ $(document).ready(function() {
     });
 
     $("#btnInsertVacante").click(function() {
+        let validInputs = true;
         tinyMCE.triggerSave();
+        $("#modalVacantes").find("input, select, textarea").map(function(){
+            if($(this).val().trim() == ''){
+                $(this).addClass('is-invalid');
+                validInputs = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        if(!validInputs) return;
         $("#modalVacantes")
             .find("input")
             .map(function(i, e) {
