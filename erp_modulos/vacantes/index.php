@@ -66,7 +66,7 @@ if (isset($id_usr)) {
                                         <table class="mb-0 table table-bordered text-center" id="tableVacantes">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <!-- <th>#</th> -->
                                                     <th>Titulo</th>
                                                     <th>Departamento</th>
                                                     <th>Estado</th>
@@ -75,14 +75,21 @@ if (isset($id_usr)) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $vacantes = $db->select("vacantes", "*");
+                                                $vacantes = $db->select("vacantes(vac)", [
+                                                    "[><]departamentos_rh(d)" => ["vac.departamento_vac" => "id"],
+                                                    "[><]estados(e)" => ["vac.estado_vac" => "id_est"]
+                                                ],
+                                                
+                                                    ["vac.id_vac", "vac.titulo_vac", "d.name", "e.nombre_est"]
+                                                );
                                                     foreach ($vacantes as $vacante) {
                                                 ?>
                                                     <tr>
-                                                        <td><?php echo $vacante["id_vac"]; ?></td>
+                                                        <td style="display: none;"><?php echo $vacante["id_vac"]; ?></td>
                                                         <td><?php echo $vacante["titulo_vac"]; ?></td>
-                                                        <td><?php echo $vacante["departamento_vac"]; ?></td>
-                                                        <td><?php echo $vacante["estado_vac"]; ?></td>
+                                                        </td>
+                                                        <td><?php echo $vacante["name"]; ?></td>
+                                                        <td><?php echo $vacante["nombre_est"]; ?></td>
                                                         <td> <button class="btnEdit mr-2 btn btn-outline-primary" data-id="<?php echo $vacante['id_vac'] ?>" data-toggle="modal" data-target="#modalVacantes">
                                                                         Editar </button>
                                                             <button class="btnDelete mr-2 btn btn-outline-danger" data-id="<?php echo $vacante["id_vac"]; ?>">
@@ -115,7 +122,7 @@ if (isset($id_usr)) {
             tinyMCE.init({
                 selector: "#experiencia_vac, #ofrecemos_vac",
                 mode: "textareas",
-                plugins: "paste,link,preview",
+                plugins: "paste,link,preview,lists, advlist",
                 theme_advanced_buttons3_add: "pastetext,pasteword,selectall,link",
                 paste_auto_cleanup_on_paste: true
             });
