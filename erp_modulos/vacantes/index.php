@@ -66,7 +66,7 @@ if (isset($id_usr)) {
                                         <table class="mb-0 table table-bordered text-center" id="tableVacantes">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>    
+                                                    <th>#</th>
                                                     <th>Titulo</th>
                                                     <th>Departamento</th>
                                                     <th>Estado</th>
@@ -83,9 +83,9 @@ if (isset($id_usr)) {
                                                         <td><?php echo $vacante["titulo_vac"]; ?></td>
                                                         <td><?php echo $vacante["departamento_vac"]; ?></td>
                                                         <td><?php echo $vacante["estado_vac"]; ?></td>
-                                                        <td> <button class="btnEdit mr-2 btn btn-outline-primary" data="<?php echo $vacante['id_vac'] ?>" data-toggle="modal" data-target="#modalVacantes">
+                                                        <td> <button class="btnEdit mr-2 btn btn-outline-primary" data-id="<?php echo $vacante['id_vac'] ?>" data-toggle="modal" data-target="#modalVacantes">
                                                                         Editar </button>
-                                                            <button class="btnDelete mr-2 btn btn-outline-danger" data="<?php echo $vacante["id_vac"]; ?>">
+                                                            <button class="btnDelete mr-2 btn btn-outline-danger" data-id="<?php echo $vacante["id_vac"]; ?>">
                                                                         Eliminar </button>
                                                         </td>
                                                     </tr>
@@ -109,7 +109,6 @@ if (isset($id_usr)) {
         <!-- /Full Container -->
         <script type="text/javascript" src="<?php echo constant('URL') ?>/assets/scripts/main.js"></script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/vendor/components/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/vacantes/main.js"></script>
         <script src="https://cdn.tiny.cloud/1/pwzdplmh9jw9bm4mxpjzjmnr5958n79k1v636aeb82h9zivw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <!-- TINYMCE -->
         <script type="text/javascript">
@@ -121,6 +120,7 @@ if (isset($id_usr)) {
                 paste_auto_cleanup_on_paste: true
             });
         </script>
+        <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/vacantes/main.js"></script>
     </body>
 
     </html>
@@ -192,15 +192,11 @@ if (isset($id_usr)) {
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label>Experiencia</label>
-                                <form method="post">
-                                    <textarea id="experiencia_vac" name="experiencia_vac"></textarea>
-                                </form>
+                                <textarea id="experiencia_vac" name="experiencia_vac"></textarea>
                             </div>
                             <div class="col-md-6">
                                 <label>Ofrecemos</label>
-                                <form method="post">
-                                    <textarea id="ofrecemos_vac" name="ofrecemos_vac"></textarea>
-                                </form>
+                                <textarea id="ofrecemos_vac" name="ofrecemos_vac"></textarea>
                             </div>
                         </div>
                         <button class="btn btn-outline-success" id="btnInsertVacante" type="button">Insertar</button>

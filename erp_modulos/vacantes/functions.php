@@ -31,6 +31,7 @@ function insertar() {
         "experiencia_vac" => $_POST["experiencia_vac"]
     ]);
     $res["status_vac"] = 1;
+    echo json_encode($res);
 }
 
 function eliminar($id_vac) {
@@ -61,7 +62,7 @@ function consultar($id_vac) {
     echo json_encode($datos);
 }
 
-function editar() {
+function editar($id_vac) {
     global $db;
     $db->update(
         "vacantes",
@@ -77,7 +78,7 @@ function editar() {
         ],
         ["id_vac" => $id_vac]
     );
-    $res["status"] = 1;
+    $res["status_vac"] = 1;
 
     echo json_encode($res);
 }

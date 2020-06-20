@@ -16,7 +16,7 @@ $(document).ready(function() {
     });
 
     $(".btnEdit").click(function() {
-        let id = $(this).attr("data");
+        let id = $(this).attr("data-id");
         obj = {
             action: "consultar",
             id_vac: id,
@@ -25,6 +25,7 @@ $(document).ready(function() {
             "functions.php",
             obj,
             function(res) {
+                res = res[0];
                 $("#titulo_vac").val(res.titulo_vac);
                 $("#estado_vac").val(res.estado_vac);
                 $("#departamento_vac").val(res.departamento_vac);
@@ -33,8 +34,8 @@ $(document).ready(function() {
                 $("#sueldo_vac").val(res.sueldo_vac);
                 // $("#experiencia_vac").val(res.experiencia_vac);
                 // $("#ofrecemos_vac").val(res.ofrecemos_vac);
-                tinyMCE.get('experiencia_vac').setContent(obj[0].experiencia_vac);
-                tinyMCE.get('ofrecemos_vac').setContent(obj[0].ofrecemos_vac);
+                tinyMCE.get('experiencia_vac').setContent(res.experiencia_vac);
+                tinyMCE.get('ofrecemos_vac').setContent(res.ofrecemos_vac);
 
                 obj = {
                     action: "editar",
@@ -48,7 +49,7 @@ $(document).ready(function() {
     });
 
     $(".btnDelete").click(function() {
-        let id = $(this).attr("data");
+        let id = $(this).attr("data-id");
         obj = {
             action: "eliminar",
             id_vac: id,
@@ -68,7 +69,7 @@ $(document).ready(function() {
                     "functions.php",
                     obj,
                     function(res) {
-                        if (res.status == 1) {
+                        if (res.status_vac == 1) {
                             Swal.fire({
                                 icon: "success",
                                 title: "¡Perfecto!",
@@ -85,6 +86,7 @@ $(document).ready(function() {
     });
 
     $("#btnInsertVacante").click(function() {
+        tinyMCE.triggerSave();
         $("#modalVacantes")
             .find("input")
             .map(function(i, e) {
@@ -95,6 +97,11 @@ $(document).ready(function() {
             .map(function(i, e) {
                 obj[e.name] = $(this).val();
             });
+        $('#modalVacantes')
+            .find("textarea")
+            .map(function(i, e){
+                obj[e.name] = $(this).val();
+            });
 
         switch (obj.action) {
             case "insertar":
@@ -102,7 +109,7 @@ $(document).ready(function() {
                     "functions.php",
                     obj,
                     function(res) {
-                        if (res.status == 1) {
+                        if (res.status_vac == 1) {
                             Swal.fire({
                                 icon: "success",
                                 title: "¡Perfecto!",
@@ -121,7 +128,7 @@ $(document).ready(function() {
                     "functions.php",
                     obj,
                     function(res) {
-                        if (res.status == 1) {
+                        if (res.status_vac == 1) {
                             Swal.fire({
                                 icon: "success",
                                 title: "¡Perfecto!",
