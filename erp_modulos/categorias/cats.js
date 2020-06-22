@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    getStartData();
     // Click categorias detalles
     // Se usa on para activarlo en el DOM
     // Si se usa solo click en este caso, no funciona
@@ -27,7 +26,7 @@ $(document).ready(function(){
             type: 'DELETE',
             dataType: 'json',
             success: (r) => {
-                getStartData();
+                location.reload();
             }
         });
     });
@@ -44,7 +43,7 @@ $(document).ready(function(){
             dataType: 'json',
             data: obj,
             success: (r) => {
-                getStartData();
+                location.reload();
             }
         });
     });
