@@ -15,6 +15,7 @@ if (isset($id_usr)) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <link rel="stylesheet" href="<?php echo constant('URL') ?>/main.css" />
+        <link rel="stylesheet" href="<?php echo constant('URL') ?>/style.css" />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <title>Clientes</title>
     </head>
