@@ -14,6 +14,7 @@ if (isset($id_usr)) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, 
         user-scalable=no, shrink-to-fit=no" />
         <link rel="stylesheet" href="<?php echo constant("URL") ?>/main.css" />
+        <link rel="stylesheet" href="<?php echo constant("URL") ?>/style.css" />
         <script src="<?php echo constant("URL") ?>/vendor/components/jquery/jquery.min.js"></script>
         <title>Dashboard</title>
     </head>
