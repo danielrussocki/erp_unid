@@ -6,7 +6,11 @@ error_reporting(0);
 $id_usr = $_SESSION['id'];
 if (isset($id_usr)) {
     //Traer id del modulo actual
-    $idModuloUsuarios = $db->select("modulos", "id_modulo", ["nombre_modulo" => "usuarios"]);
+    $idModuloCategorias = $db->select("modulos", "id_modulo", ["nombre_modulo" => "categorias"]);
+    //Si no puede consultar este modulo mostrar pagina de error
+    if (!in_array($idModuloCategorias[0], $_SESSION["consultar"])) {
+        header("Location:" . URL . "/403.html");
+    } else {
 ?>
 <!DOCTYPE html>
 <html lang="mx">
@@ -118,6 +122,7 @@ if (isset($id_usr)) {
 </body>
 </html>
 <?php
+    }
 } else {
     header('Location:' . URL . '/erp_modulos/login/index.php');
 }

@@ -59,8 +59,9 @@ $(document).ready(function(){
             dataType: 'json',
             data: obj,
             success: (r) => {
-                getStartData();
-                $('#nombreInsert').val('');
+                // getStartData();
+                // $('#nombreInsert').val('');
+                location.reload();
             }
         });
     });

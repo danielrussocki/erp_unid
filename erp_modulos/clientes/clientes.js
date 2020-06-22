@@ -5,7 +5,7 @@ $(document).ready(function(){
     // Click categorias detalles
     // Se usa on para activarlo en el DOM
     // Si se usa solo click en este caso, no funciona
-    getStartData();
+    // getStartData();
     $('#clitbody').on('click', '.get-user-data', function(){
         let id = $(this).attr('data-client');
         $('#saveDetails').attr('data-client', id);
@@ -42,24 +42,6 @@ $(document).ready(function(){
                         $('#editCodigoPostal').val(r.cp_fac);
                     }
                 });
-                // let envid = $('#third-tab-edit').attr('data-fac');
-                // $.ajax({
-                //     url: ` https://erp-unid.herokuapp.com/api/clientes/${id}/envios/`,
-                //     type: 'GET',
-                //     dataType: 'json',
-                //     success: (r) => {
-                //         $('#editTitulo').val(r.estado_env);
-                //         $('#editEstado2').val(r.estado_env);
-                //         $('#editCiudad2').val(r.ciudad_env);
-                //         $('#editCalle2').val(r.calle_env);
-                //         $('#editEntre2').val(r.entre_env);
-                //         $('#editSuperManzana2').val(r.sm_env);
-                //         $('#editManzana2').val(r.mza_env);
-                //         $('#editLote2').val(r.lte_env);
-                //         $('#editMunicipio2').val(r.municipio_env);
-                //         $('#editCodigoPostal2').val(r.cp_env);
-                //     }
-                // });
             }
         });
         getStartDataEnv(id);
@@ -119,7 +101,7 @@ $(document).ready(function(){
             type: 'DELETE',
             dataType: 'json',
             success: (r) => {
-                getStartData();
+                location.reload();
             }
         });
     });
@@ -214,17 +196,7 @@ $(document).ready(function(){
                 });
             },
             success: (r) => {
-                getStartData();
-                $('#nombre').val('');
-                // $('#apellidoInsert').val('');
-                $('#telefono').val('');
-                $('#correo').val('');
-                $('#idioma').val('');
-                $('#pais').val('');
-                $('#categoria').val('');
-                // $('#envioInsert').val('');
-                // $('#factInsert').val('');
-                $('#foto').val('');
+                location.reload();
             }
         });
         let facid = $('#second-tab-edit').attr('data-fac');
@@ -356,6 +328,7 @@ $(document).ready(function(){
                         $('#insertMunicipio').val('');
                         $('#insertCodigoPostal').val('');
                         restartInsertForm();
+                        location.reload();
                     }
                 });
             }
