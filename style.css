@@ -1,3 +1,7 @@
 .app-sidebar {
     overflow-y: scroll;
 }
+
+#vacantes {
+    background-color: #f1f4f6;
+}
