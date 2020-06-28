@@ -231,7 +231,7 @@ if (isset($id_usr)) {
                             </div>
                             <div class="col-md-4">
                                 <label>Sueldo</label>
-                                <input type="text" class="form-control" id="sueldo_vac" name="sueldo_vac">
+                                <input type="number" class="form-control" id="sueldo_vac" name="sueldo_vac">
                             </div>
                         </div>
                         <div class="form-row">
