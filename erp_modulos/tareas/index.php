@@ -168,6 +168,7 @@ if (isset($id_usr)) {
                 paste_auto_cleanup_on_paste: true
             });
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.6/lib/draggable.bundle.js"></script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/tareas/main.js"></script>
     </body>
 
