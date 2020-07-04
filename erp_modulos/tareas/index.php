@@ -92,12 +92,19 @@ if (isset($id_usr)) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $tareas = $db->select("tareas(t)",
-                                               
-                                                     ["[><]usuarios(u)" => ["t.usr_tar" => "id_usr"]],
-                                                    // "[><]estados(e)" => ["vac.estado_vac" => "id_est"]
-
-                                                    ["t.id_tar", "t.desc_tar", "t.fechaasig_tar", "u.nombre_usr", "t.status_tar"]
+                                                $tareas = $db/* ->debug() */->select("tareas(t)",[
+                                                    "[>]usuarios(u)" => ["t.usr_tar" => "id_usr"],
+                                                    "[>]usuarios(us)" => ["t.usr2_tar" => "id_usr"],
+                                                ],[
+                                                    "t.id_tar",
+                                                    "t.desc_tar",
+                                                    "t.fechaasig_tar", 
+                                                    "t.usr_tar",
+                                                    "t.usr2_tar",
+                                                    "t.status_tar",
+                                                    "u.nombre_usr",
+                                                    "us.nombre_usr(usuario2)"
+                                                    ]
                                                 );
                                                     foreach ($tareas as $tarea) {
                                                 ?>
@@ -106,7 +113,7 @@ if (isset($id_usr)) {
                                                         <td><?php echo $tarea["desc_tar"]; ?></td>
                                                         <td><?php echo $tarea["fechaasig_tar"]; ?></td>
                                                         <td><?php echo $tarea["nombre_usr"]; ?></td>
-                                                        <td><?php echo $tarea["nombre_usr"]; ?></td>
+                                                        <td><?php echo $tarea["usuario2"]; ?></td>
                                                         <td><div class="badge badge-info"><?php echo $tarea["status_tar"]; ?></div></td>
                                                         <?php
                                                             //Si el id del modulo se encuentra en el array de permisos editar o eliminar muestra el td
@@ -204,16 +211,8 @@ if (isset($id_usr)) {
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>Asignado por:</label>
-                                <select name="usr2_tar" id="usr2_tar" class="form-control">
-                                    <?php
-                                    global $db;
-                                    $query = $db->select("usuarios","*",["ORDER" =>["id_usr" => "ASC"]]);
-                                        foreach($query as $clave => $valor){
-                                    ?>
-                                    <option value="<?php echo $valor['id_usr']; ?>"><?php echo $valor['nombre_usr']; ?></option>
-                                <?php } ?>
-                                </select>
+                                <!-- ASIGNADO POR -->
+                                <input type="hidden" name="usr2_tar" id="usr2_tar" value="<?php echo($id_usr) ?>"> 
                             </div>
                         </div>
                         <div class="form-row">
