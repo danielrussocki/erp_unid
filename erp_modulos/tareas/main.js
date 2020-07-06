@@ -170,15 +170,68 @@ $('.detalles-tarea').click(function (event) {
         dataType: 'json',
         data: detailsObj,
         success: (r) => {
-            template = '';
+            let template = '';
+            let suma = 0;
+            let base;
             $.each(r, function(key, val){
-                console.log(key, val);
+                // console.log(key, val);
                 template += `
                 <div>
                     <span style="font-weight:bold;">${val.tiempo}</span> ${val.cambios}
                 </div>
                 `;
+                if(button.hasClass('terminadisimo')){
+                    if(val.cambios.includes("CREATED AS: Iniciado") || val.cambios.includes("FROM: No iniciado TO: Iniciado")){
+                        base = new Date(val.tiempo).getTime() / 1000;
+                        if(r[key + 1].cambios.includes("FROM: Iniciado TO: Pausado") || r[key + 1].cambios.includes("FROM: Iniciado TO: Completado")){
+                            let temp = new Date(r[key + 1].tiempo).getTime() / 1000;
+                            suma = temp - base;
+                        }
+                    }
+                    if(val.cambios.includes("FROM: Pausado TO: Iniciado")){
+                        let baseTemp = new Date(val.tiempo).getTime() / 1000;
+                        // console.log(baseTemp);
+                        if(r[key + 1].cambios.includes("FROM: Iniciado TO: Pausado") || r[key + 1].cambios.includes("FROM: Iniciado TO: Completado")){
+                            let temp = new Date(r[key + 1].tiempo).getTime() / 1000;
+                            suma = suma + (temp - baseTemp);
+                        }
+                    }
+                }
             });
+            if(button.hasClass('terminadisimo')){
+                // console.log(base);
+                // console.log(suma);
+                suma /= 60;
+                suma /= 60;
+                let minutos = suma - Math.floor(suma);
+                // console.log(minutos);
+                minutos *= 60;
+                let segundos = minutos - Math.floor(minutos);
+                segundos *= 60;
+                template += `
+                <br>
+                <div>La tarea se realizó en:</div>
+                <div style="display:inline-block; text-align: center;">
+                    <div style="font-size:18px; font-weight: bold;">
+                        ${Math.floor(suma) < 10 ? "0" + Math.floor(suma): Math.floor(suma)}
+                    </div>
+                    <div style="font-size:10px;">Horas</div>
+                </div>
+                <div style="display:inline-block; text-align: center;">
+                    <div style="font-size:18px; font-weight: bold;">
+                    ${Math.floor(minutos) < 10 ? "0" + Math.floor(minutos) : Math.floor(minutos)}
+                    </div>
+                    <div style="font-size:10px;">Mins</div>
+                </div>
+                <div style="display:inline-block; text-align: center;">
+                    <div style="font-size:18px; font-weight: bold;">
+                    ${Math.floor(segundos) < 10 ? "0" + Math.floor(segundos) : Math.floor(segundos)}
+                    </div>
+                    <div style="font-size:10px;">Secs</div>
+                </div>
+                `;
+
+            }
             modal.find('.modal-body').html(template);
         }
     });

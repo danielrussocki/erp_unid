@@ -175,7 +175,7 @@ if (isset($id_usr)) {
                                                                             <?php echo $tarea["status_tar"]; ?>
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
-                                                                            <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
+                                                                            <a class="dropdown-item detalles-tarea terminadisimo" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
