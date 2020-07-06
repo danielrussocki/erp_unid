@@ -10,7 +10,7 @@ $(document).ready(function() {
         obj = {
             action: "insertar",
         };
-        $(".modal-title").text("Nueva Tarea");
+        $("#modalTareas .modal-title").text("Nueva Tarea");
         $("#btnInsertTarea").text("Insertar");
         $("#formTareas")[0].reset();
     });
@@ -39,7 +39,7 @@ $(document).ready(function() {
             },
             "JSON"
         );
-        $(".modal-title").text("Editar Tarea");
+        $("#modalTareas .modal-title").text("Editar Tarea");
         $("#btnInsertTarea").text("Editar");
     });
 
@@ -64,7 +64,7 @@ $(document).ready(function() {
                     "functions.php",
                     obj,
                     function(res) {
-                        if (res.status_vac == 1) {
+                        if (res.activo_tar == 1) {
                             Swal.fire({
                                 icon: "success",
                                 title: "¡Perfecto!",
@@ -151,4 +151,132 @@ $(document).ready(function() {
                 break;
         }
     });
+});
+
+$('.detalles-tarea').click(function (event) {
+    var modal = $('#tiempoDetallesModal');
+    modal.find('.modal-body').text('Loading...');
+    var button = $(event.target); // Button that triggered the modal
+    var recipient = button.data('tarea'); // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    detailsObj = {
+        action: 'detalles-tarea',
+        id_tar: recipient
+    };
+    $.ajax({
+        url: './functions.php',
+        type: 'POST',
+        dataType: 'json',
+        data: detailsObj,
+        success: (r) => {
+            template = '';
+            $.each(r, function(key, val){
+                console.log(key, val);
+                template += `
+                <div>
+                    <span style="font-weight:bold;">${val.tiempo}</span> ${val.cambios}
+                </div>
+                `;
+            });
+            modal.find('.modal-body').html(template);
+        }
+    });
+});
+
+$('.iniciar-tarea').click(function(event){
+    var button = $(event.target); // Button that triggered the modal
+    var recipient = button.data('tarea'); // Extract info from data-* attributes
+    let tareaObj = {
+        action: 'iniciar-tarea',
+        id_tar: recipient
+    }
+    $.post(
+        "functions.php",
+        tareaObj,
+        function(res) {
+            if (res.status == 1) {
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Perfecto!",
+                    text: "Se ha comenzado la tarea",
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        },
+        "JSON"
+    );
+});
+$('.pausar-tarea').click(function(event){
+    var button = $(event.target); // Button that triggered the modal
+    var recipient = button.data('tarea'); // Extract info from data-* attributes
+    let tareaObj = {
+        action: 'pausar-tarea',
+        id_tar: recipient
+    }
+    $.post(
+        "functions.php",
+        tareaObj,
+        function(res) {
+            if (res.status == 1) {
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Perfecto!",
+                    text: "Se ha pausado la tarea",
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        },
+        "JSON"
+    );
+});
+$('.reanudar-tarea').click(function(event){
+    var button = $(event.target); // Button that triggered the modal
+    var recipient = button.data('tarea'); // Extract info from data-* attributes
+    let tareaObj = {
+        action: 'reanudar-tarea',
+        id_tar: recipient
+    }
+    $.post(
+        "functions.php",
+        tareaObj,
+        function(res) {
+            if (res.status == 1) {
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Perfecto!",
+                    text: "Se ha reanudado la tarea",
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        },
+        "JSON"
+    );
+});
+$('.terminar-tarea').click(function(event){
+    var button = $(event.target); // Button that triggered the modal
+    var recipient = button.data('tarea'); // Extract info from data-* attributes
+    let tareaObj = {
+        action: 'terminar-tarea',
+        id_tar: recipient
+    }
+    $.post(
+        "functions.php",
+        tareaObj,
+        function(res) {
+            if (res.status == 1) {
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Perfecto!",
+                    text: "Se ha terminado la tarea",
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        },
+        "JSON"
+    );
 });

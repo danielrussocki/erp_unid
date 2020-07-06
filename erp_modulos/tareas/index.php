@@ -77,8 +77,8 @@ if (isset($id_usr)) {
                                                     <!-- <th>#</th> -->
                                                     <th>Descripción</th>
                                                     <th>Fecha de asignación</th>
-                                                    <th>Asignada a</th>
                                                     <th>Asignada por</th>
+                                                    <th>Asignada a</th>
                                                     <th>Estatus</th>
                                                     <?php
                                                         //Si el id del modulo se encuentra en el array de permisos editar o eliminar muestra el th
@@ -104,7 +104,12 @@ if (isset($id_usr)) {
                                                     "t.status_tar",
                                                     "u.nombre_usr",
                                                     "us.nombre_usr(usuario2)"
+                                                ],[
+                                                    "OR" => [
+                                                        "t.usr_tar" => $id_usr,
+                                                        "t.usr2_tar" => $id_usr
                                                     ]
+                                                ]
                                                 );
                                                     foreach ($tareas as $tarea) {
                                                 ?>
@@ -112,9 +117,77 @@ if (isset($id_usr)) {
                                                         <td style="display: none;"><?php echo $tarea["id_tar"]; ?></td>
                                                         <td><?php echo $tarea["desc_tar"]; ?></td>
                                                         <td><?php echo $tarea["fechaasig_tar"]; ?></td>
-                                                        <td><?php echo $tarea["nombre_usr"]; ?></td>
                                                         <td><?php echo $tarea["usuario2"]; ?></td>
-                                                        <td><div class="badge badge-info"><?php echo $tarea["status_tar"]; ?></div></td>
+                                                        <td><?php echo $tarea["nombre_usr"]; ?></td>
+                                                        <?php
+                                                        switch($tarea["status_tar"]){
+                                                            case "No iniciado":
+                                                                ?>
+                                                                <td>
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <?php echo $tarea["status_tar"]; ?>
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
+                                                                            <a class="dropdown-item iniciar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Iniciar Tarea</a>
+                                                                            <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <?php
+                                                            break;
+                                                            case "Iniciado":
+                                                                ?>
+                                                                <td>
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <?php echo $tarea["status_tar"]; ?>
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
+                                                                            <a class="dropdown-item pausar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Pausar tarea</a>
+                                                                            <a class="dropdown-item terminar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Marcar como terminada</a>
+                                                                            <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <?php
+                                                            break;
+                                                            case "Pausado":
+                                                                ?>
+                                                                <td>
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <?php echo $tarea["status_tar"]; ?>
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
+                                                                            <a class="dropdown-item reanudar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Reanudar tarea</a>
+                                                                            <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <?php
+                                                            break;
+                                                            case "Completado":
+                                                                ?>
+                                                                <td>
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <?php echo $tarea["status_tar"]; ?>
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
+                                                                            <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <?php
+                                                            break;
+                                                            default:
+                                                                ?>
+                                                                <td><div class="badge badge-danger">No definido</div></td>
+                                                                <?php
+                                                            break;
+                                                        }
+                                                        ?>
                                                         <?php
                                                             //Si el id del modulo se encuentra en el array de permisos editar o eliminar muestra el td
                                                             if (in_array($idModuloTareas[0], $_SESSION["editar"]) || in_array($idModuloTareas[0], $_SESSION["eliminar"])) :
@@ -175,7 +248,6 @@ if (isset($id_usr)) {
                 paste_auto_cleanup_on_paste: true
             });
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.6/lib/draggable.bundle.js"></script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/tareas/main.js"></script>
     </body>
 
@@ -232,6 +304,22 @@ if (isset($id_usr)) {
                         </div>
                         <button class="btn btn-outline-success" id="btnInsertTarea" type="button">Insertar</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Small modal -->
+    <div class="modal fade" id="tiempoDetallesModal" tabindex="-1" role="dialog" aria-labelledby="tiempoDetallesModal" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Loading...
                 </div>
             </div>
         </div>

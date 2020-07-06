@@ -15,6 +15,21 @@ if ($_POST) {
 
         case 'editar':editar($_POST["id_tar"]);
             break;
+
+        case 'detalles-tarea':detallesTareas($_POST["id_tar"]);
+            break;
+
+        case 'iniciar-tarea':cambiarStatusTarea(1, $_POST['id_tar']);
+            break;
+
+        case 'pausar-tarea':cambiarStatusTarea(2, $_POST['id_tar']);
+            break;
+
+        case 'reanudar-tarea':cambiarStatusTarea(3, $_POST['id_tar']);
+            break;
+
+        case 'terminar-tarea':cambiarStatusTarea(4, $_POST['id_tar']);
+            break;
     }
 }
 
@@ -78,4 +93,54 @@ function editar($id_tar) {
     $res["activo_tar"] = 1;
 
     echo json_encode($res);
+}
+
+function detallesTareas($id){
+    global $db;
+    $detalles = $db->select("tiempo_tarea", "*", [
+        "tarea_id" => $id
+    ]);
+    echo json_encode($detalles);
+}
+
+function cambiarStatusTarea($actionNumber, $id){
+    global $db;
+    switch($actionNumber){
+        case 1:
+            $db->update("tareas", [
+                "status_tar" => "Iniciado"
+            ], [
+                "id_tar" => $id
+            ]);
+            $response["status"] = 1;
+            echo json_encode($response);
+        break;
+        case 2:
+            $db->update("tareas", [
+                "status_tar" => "Pausado"
+            ], [
+                "id_tar" => $id
+            ]);
+            $response["status"] = 1;
+            echo json_encode($response);
+        break;
+        case 3:
+            $db->update("tareas", [
+                "status_tar" => "Iniciado"
+            ], [
+                "id_tar" => $id
+            ]);
+            $response["status"] = 1;
+            echo json_encode($response);
+        break;
+        case 4:
+            $db->update("tareas", [
+                "status_tar" => "Completado"
+            ], [
+                "id_tar" => $id
+            ]);
+            $response["status"] = 1;
+            echo json_encode($response);
+        break;
+    }
 }
