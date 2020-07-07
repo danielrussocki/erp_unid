@@ -129,7 +129,13 @@ if (isset($id_usr)) {
                                                                             <?php echo $tarea["status_tar"]; ?>
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
-                                                                            <a class="dropdown-item iniciar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Iniciar Tarea</a>
+                                                                            <?php
+                                                                            if($id_usr == $tarea["usr_tar"]){
+                                                                                ?>
+                                                                                <a class="dropdown-item iniciar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Iniciar Tarea</a>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
                                                                             <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
                                                                         </div>
                                                                     </div>
@@ -144,8 +150,14 @@ if (isset($id_usr)) {
                                                                             <?php echo $tarea["status_tar"]; ?>
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
-                                                                            <a class="dropdown-item pausar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Pausar tarea</a>
-                                                                            <a class="dropdown-item terminar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Marcar como terminada</a>
+                                                                            <?php
+                                                                            if($id_usr == $tarea["usr_tar"]){
+                                                                                ?>
+                                                                                <a class="dropdown-item pausar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Pausar tarea</a>
+                                                                                <a class="dropdown-item terminar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Marcar como terminada</a>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
                                                                             <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
                                                                         </div>
                                                                     </div>
@@ -160,7 +172,13 @@ if (isset($id_usr)) {
                                                                             <?php echo $tarea["status_tar"]; ?>
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $tarea["id_tar"]; ?>">
-                                                                            <a class="dropdown-item reanudar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Reanudar tarea</a>
+                                                                            <?php
+                                                                            if($id_usr == $tarea["usr_tar"]){
+                                                                                ?>
+                                                                                <a class="dropdown-item reanudar-tarea" href="javascript:void(0)" data-tarea="<?php echo $tarea["id_tar"]; ?>">Reanudar tarea</a>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
                                                                             <a class="dropdown-item detalles-tarea" href="javascript:void(0)" data-toggle="modal" data-target="#tiempoDetallesModal" data-tarea="<?php echo $tarea["id_tar"]; ?>">Detalles</a>
                                                                         </div>
                                                                     </div>
@@ -289,10 +307,10 @@ if (isset($id_usr)) {
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
-                                <label>Fecha de asignación:</label>
-                                <input type="date" class="form-control" id="fechaasig_tar" name="fechaasig_tar">
+                                <label>Fecha límite:</label>
+                                <input type="date" class="form-control" id="fechaentrega_tar" name="fechaentrega_tar">
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <!-- <div class="col-md-6 mb-3">
                                 <label>Estatus:</label>
                                 <select name="status_tar" id="status_tar" class="form-control"> 
                                 <option value="No iniciado">No iniciado</option>
@@ -300,7 +318,7 @@ if (isset($id_usr)) {
                                 <option value="Pausado">Pausado</option>
                                 <option value="Completado">Completado</option>
                                 </select>
-                            </div>
+                            </div> -->
                         </div>
                         <button class="btn btn-outline-success" id="btnInsertTarea" type="button">Insertar</button>
                     </form>

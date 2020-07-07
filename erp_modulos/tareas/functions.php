@@ -40,7 +40,8 @@ function insertar() {
         "usr_tar" => $_POST["usr_tar"],
         "usr2_tar" => $_POST["usr2_tar"],
         "fechaasig_tar" => $_POST["fechaasig_tar"],
-        "status_tar" => $_POST["status_tar"]
+        "fechaentrega_tar" => $_POST["fechaentrega_tar"],
+        "status_tar" => "No iniciado"
     ]);
     $res["activo_tar"] = 1;
     echo json_encode($res);
@@ -64,6 +65,7 @@ function consultar($id_tar) {
         "usr_tar" => $sql["usr_tar"],
         "usr2_tar" => $sql["usr2_tar"],
         "fechaasig_tar" => $sql["fechaasig_tar"],
+        "fechaentrega_tar" => $sql["fechaentrega_tar"],
         "status_tar" => $sql["status_tar"],
         // "sueldo_tar" => $sql["sueldo_tar"],
         // "experiencia_tar" => $sql["experiencia_tar"],
@@ -82,8 +84,7 @@ function editar($id_tar) {
             "desc_tar" => $_POST["desc_tar"],
             "usr_tar" => $_POST["usr_tar"],
             "usr2_tar" => $_POST["usr2_tar"],
-            "fechaasig_tar" => $_POST["fechaasig_tar"],
-            "status_tar" => $_POST["status_tar"],
+            "fechaentrega_tar" => $_POST["fechaentrega_tar"]
             // "sueldo_tar" => $_POST["sueldo_tar"],
             // "experiencia_tar" => $_POST["experiencia_tar"],
             // "ofrecemos_tar" => $_POST["ofrecemos_tar"]

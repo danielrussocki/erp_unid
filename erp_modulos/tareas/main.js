@@ -1,6 +1,21 @@
 $(document).ready(function() {
     var obj = {};
 
+    let hoyhoy = new Date();
+    let fechaRules = {
+        dia: hoyhoy.getDate(),
+        mes: hoyhoy.getMonth() + 1,
+        year: hoyhoy.getFullYear()
+    };
+    if(fechaRules.dia < 10) {
+        fechaRules.dia = "0" + fechaRules.dia
+    }
+    if(fechaRules.mes < 10) {
+        fechaRules.mes = "0" + fechaRules.mes
+    }
+    hoyhoy = fechaRules.year + "-" + fechaRules.mes + "-" + fechaRules.dia;
+    $('input[type=date]').attr("min", hoyhoy);
+
     $(".btnModulo").click(function(e) {
         e.preventDefault();
         console.log("hola");
@@ -9,6 +24,7 @@ $(document).ready(function() {
     $("#newTarea").click(function() {
         obj = {
             action: "insertar",
+            fechaasig_tar: hoyhoy
         };
         $("#modalTareas .modal-title").text("Nueva Tarea");
         $("#btnInsertTarea").text("Insertar");
@@ -29,12 +45,12 @@ $(document).ready(function() {
                 tinyMCE.get('desc_tar').setContent(res.desc_tar);
                 $("#usr_tar").val(res.usr_tar);
                 $("#usr2_tar").val(res.usr2_tar);
-                $("#fechaasig_tar").val(res.fechaasig_tar);
+                $("#fechaentrega_tar").val(res.fechaentrega_tar);
                 $("#status_tar").val(res.status_tar);
 
                 obj = {
                     action: "editar",
-                    id_tar: id,
+                    id_tar: id
                 };
             },
             "JSON"
