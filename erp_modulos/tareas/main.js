@@ -31,7 +31,7 @@ $(document).ready(function() {
         $("#formTareas")[0].reset();
     });
 
-    $(".btnEdit").click(function() {
+    $("#tableTareas").on('click', '.btnEdit', function() {
         let id = $(this).attr("data-id");
         obj = {
             action: "consultar",
@@ -59,7 +59,7 @@ $(document).ready(function() {
         $("#btnInsertTarea").text("Editar");
     });
 
-    $(".btnDelete").click(function() {
+    $("#tableTareas").on('click', '.btnDelete', function() {
         let id = $(this).attr("data-id");
         obj = {
             action: "eliminar",

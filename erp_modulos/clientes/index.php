@@ -21,6 +21,7 @@ if (isset($id_usr)) {
         <link rel="stylesheet" href="<?php echo constant('URL') ?>/main.css" />
         <link rel="stylesheet" href="<?php echo constant('URL') ?>/style.css" />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
         <title>Clientes</title>
     </head>
 <body>
@@ -45,6 +46,14 @@ if (isset($id_usr)) {
         </div>
     </div>
 <script type="text/javascript" src="../../assets/scripts/main.js"></script>
+<script type="text/javascript" src="<?php echo constant('URL') ?>/vendor/components/jquery/jquery.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"></script>
+<script>
+    $('#tableClientes').bootstrapTable({
+        pagination: true,
+        search: true
+    });
+</script>
 <!-- Modal -->
 <div class="modal fade" id="detallesModal" tabindex="-1" role="dialog" aria-labelledby="detallesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

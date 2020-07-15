@@ -15,7 +15,7 @@ $(document).ready(function() {
         $("#formVacantes")[0].reset();
     });
 
-    $(".btnEdit").click(function() {
+    $("#tableVacantes").on('click', '.btnEdit', function() {
         let id = $(this).attr("data-id");
         obj = {
             action: "consultar",
@@ -48,7 +48,7 @@ $(document).ready(function() {
         $("#btnInsertVacante").text("Editar");
     });
 
-    $(".btnDelete").click(function() {
+    $("#tableVacantes").on('click', '.btnDelete', function() {
         let id = $(this).attr("data-id");
         obj = {
             action: "eliminar",
