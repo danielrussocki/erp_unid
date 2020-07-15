@@ -21,6 +21,7 @@ if (isset($id_usr)) {
         <link rel="stylesheet" href="<?php echo constant('URL') ?>/main.css" />
         <link rel="stylesheet" href="<?php echo constant('URL') ?>/style.css" />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
         <title>Vacantes</title>
     </head>
 
@@ -74,7 +75,6 @@ if (isset($id_usr)) {
                                         <table class="mb-0 table table-bordered text-center" id="tableVacantes">
                                             <thead>
                                                 <tr>
-                                                    <!-- <th>#</th> -->
                                                     <th>Titulo</th>
                                                     <th>Departamento</th>
                                                     <th>Estado</th>
@@ -100,7 +100,6 @@ if (isset($id_usr)) {
                                                     foreach ($vacantes as $vacante) {
                                                 ?>
                                                     <tr>
-                                                        <td style="display: none;"><?php echo $vacante["id_vac"]; ?></td>
                                                         <td><?php echo $vacante["titulo_vac"]; ?></td>
                                                         </td>
                                                         <td><?php echo $vacante["name"]; ?></td>
@@ -155,6 +154,7 @@ if (isset($id_usr)) {
         <script type="text/javascript" src="<?php echo constant('URL') ?>/assets/scripts/main.js"></script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/vendor/components/jquery/jquery.min.js"></script>
         <script src="https://cdn.tiny.cloud/1/pwzdplmh9jw9bm4mxpjzjmnr5958n79k1v636aeb82h9zivw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"></script>
         <!-- TINYMCE -->
         <script type="text/javascript">
             tinyMCE.init({
@@ -163,6 +163,10 @@ if (isset($id_usr)) {
                 plugins: "paste,link,preview,lists, advlist",
                 theme_advanced_buttons3_add: "pastetext,pasteword,selectall,link",
                 paste_auto_cleanup_on_paste: true
+            });
+            $('#tableVacantes').bootstrapTable({
+                pagination: true,
+                search: true
             });
         </script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/vacantes/main.js"></script>

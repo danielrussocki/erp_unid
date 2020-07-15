@@ -75,8 +75,7 @@ if (isset($id_usr)) {
                                         <table class="mb-0 table table-bordered text-center" id="tableTareas">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
-                                                    <th>Descripción</th>
+                                                    <th data-width="260">Descripción</th>
                                                     <th>Fecha de asignación</th>
                                                     <th>Asignada por</th>
                                                     <th>Asignada a</th>
@@ -115,7 +114,6 @@ if (isset($id_usr)) {
                                                     foreach ($tareas as $tarea) {
                                                 ?>
                                                     <tr>
-                                                        <td style="display: none;"><?php echo $tarea["id_tar"]; ?></td>
                                                         <td><?php echo $tarea["desc_tar"]; ?></td>
                                                         <td><?php echo $tarea["fechaasig_tar"]; ?></td>
                                                         <td><?php echo $tarea["usuario2"]; ?></td>
@@ -268,9 +266,9 @@ if (isset($id_usr)) {
                 paste_auto_cleanup_on_paste: true
             });
             $('#tableTareas').bootstrapTable({
-                    pagination: true,
-                    search: true
-                })
+                pagination: true,
+                search: true
+            });
         </script>
         <script type="text/javascript" src="<?php echo constant('URL') ?>/erp_modulos/tareas/main.js"></script>
     </body>
