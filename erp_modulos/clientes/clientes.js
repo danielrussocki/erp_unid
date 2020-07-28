@@ -408,6 +408,19 @@ $(document).ready(function(){
         });
     });
 
+    $('#envbody').on('click', '.del-dir-envio-data', function(){
+        let idcliente = $('#saveDetails').attr('data-client');
+        let idenvio = $(this).attr('data-envio');
+        $.ajax({
+            url: `https://erp-unid.herokuapp.com/api/clients/${idcliente}/envios/${idenvio}`,
+            type: 'DELETE',
+            dataType: 'json',
+            success: (r) => {
+                getStartDataEnv(idcliente);
+            }
+        });
+    });
+
     $('#editEnv').click(function(){
         let idcliente = $('#saveDetails').attr('data-client');
         let idenvio = $(this).attr('data-envio');
@@ -575,8 +588,11 @@ function getStartDataEnv(id){
                         </div>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="mx-auto border-0 btn btn-secondary d-block btn-sm get-dir-envio-data" data-envio="${ value.id_env }">
+                        <button type="button" class="mx-auto border-0 btn btn-secondary d-inline-block btn-sm get-dir-envio-data" data-envio="${ value.id_env }">
                             Editar
+                        </button>
+                        <button type="button" class="mx-auto border-danger btn btn-transparent d-inline-block btn-sm del-dir-envio-data" data-envio="${ value.id_env }">
+                            <i class="pe-7s-trash icon-gradient bg-strong-bliss"></i>
                         </button>
                     </td>
                 </tr>
