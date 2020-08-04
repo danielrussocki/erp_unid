@@ -34,36 +34,7 @@ global $db;
             <img class="d-block w-100 h-100" style="object-fit: cover;" src="./assets/images/desk.jpg" alt="desk">
         </div>
     </div>
-    <div class="nav__container animate__animated animate__bounceIn animate__delay-3s">
-        <nav class="nav">
-            <input type="checkbox" class="nav__cb" id="menu-cb"/>
-            <div class="nav__content">
-                <ul class="nav__items">
-                    <li class="nav__item">
-                        <a href="javascript:void(0)" class="nav__item-text">
-                        Inicio
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="javascript:void(0)" class="nav__item-text">
-                        Vacantes
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="javascript:void(0)" class="nav__item-text">
-                        Nosotros
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="javascript:void(0)" class="nav__item-text">
-                        Contacto
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <label class="nav__btn" for="menu-cb"></label>
-        </nav>
-    </div>
+    <?php include(ROOT_PATH . "/erp_vistas/includes/boton_menu.php"); ?>
     <div class="overflow-hidden">
         <div class="container animate__animated animate__fadeInDown animate__delay-4s">
             <div class="row">
@@ -128,16 +99,8 @@ global $db;
             </div>
         </div>
     </div>
-    <footer class="mt-4 pb-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <hr style="border-color: rgba(255,255,255,.6);">
-                    <small class="d-block text-right">Footer pedorro de muestra.</small>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer -->
+    <?php include(ROOT_PATH . "/erp_vistas/includes/footer_vistas.php"); ?>
     <div class="modal fade" id="vacantesVistaModal" tabindex="-1" role="dialog" aria-labelledby="vacantesVistaModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
