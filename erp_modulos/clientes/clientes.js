@@ -411,12 +411,25 @@ $(document).ready(function(){
     $('#envbody').on('click', '.del-dir-envio-data', function(){
         let idcliente = $('#saveDetails').attr('data-client');
         let idenvio = $(this).attr('data-envio');
-        $.ajax({
-            url: `https://erp-unid.herokuapp.com/api/clients/${idcliente}/envios/${idenvio}`,
-            type: 'DELETE',
-            dataType: 'json',
-            success: (r) => {
-                getStartDataEnv(idcliente);
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás revertir los cambios.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33 ",
+            cancelButtonText: "Cancelar",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Eliminar",
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: `https://erp-unid.herokuapp.com/api/clients/${idcliente}/envios/${idenvio}`,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: (r) => {
+                        getStartDataEnv(idcliente);
+                    }
+                });
             }
         });
     });
