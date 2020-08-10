@@ -85,7 +85,7 @@ global $db;
                         <div class="card-body" style="max-height: 375px; overflow-y: scroll;">
                             <h5 class="card-title"><?=$vacante["titulo_vac"];?> - <small style="font-weight: 300;"><?=$vacante["nombre_est"];?></small></h5>
                             <h6><?= $vacante["sueldo_vac"];?> MXN</h6>
-                            <p class="card-text"><span style="font-weight: bold;">Edad: </span><?=utf8_encode($vacante["edad_vac"]);?></p>
+                            <p class="card-text"><span style="font-weight: bold;">Edad: </span><?=$vacante["edad_vac"];?></p>
                             <p class="card-text"><span style="font-weight: bold;">Experiencia: </span><?=$vacante["experiencia_vac"];?></p>
                             <p class="card-text"><span style="font-weight: bold;">Ofrecemos: </span><?=$vacante["ofrecemos_vac"];?></p>
                         </div>
